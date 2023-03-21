@@ -4,6 +4,94 @@
 
 Provides commonly-used tools across Edge API products
 
+## Overview
+
+### cycle
+
+[cycle](./lib/cycle.ts) provides a simple wrapper for background jobs.
+
+```ts
+import { cycle } from '@edge/api-sdk'
+
+const hello: Job = {
+  name: 'hello',
+  interval: 2000,
+  async do() {
+    console.log('Hello')
+  }
+}
+run([hello]).catch(err => console.error(err))
+```
+
+### http
+
+[http](./lib/http.ts) provides convenience methods for Express-based JSON APIs.
+
+```ts
+import { RequestHandler } from 'express'
+import { http as sdkHttp } from '@edge/api-sdk'
+
+const handler: RequestHandler = (req, res, next) => {
+  sdkHttp.notFound(res, next, { reason: 'this is just a README demonstration' })
+}
+```
+
+### query
+
+[query](./lib/query.ts) provides type-safe access to query string data.
+
+```ts
+import { RequestHandler } from 'express'
+import { query } from '@edge/api-sdk'
+
+const handler: RequestHandler = (req, res, next) => {
+  const page = query.integer(req.query.page, 1) || 1
+  res.send(`Page ${page}`)
+  next()
+}
+```
+
+### validate
+
+[validate](./lib/validate.ts) provides a basic validation library, plus a powerful `validate()` function that sanitises input. This is particularly useful for Express-based JSON APIs.
+
+```ts
+import { RequestHandler } from 'express'
+import { validate } from '@edge/api-sdk'
+
+const handler = (): RequestHandler => {
+  type Data = {
+    name: string
+  }
+  const readBody = validate.validate<Data>({
+    name: v.seq(v.str, v.minLength(1), v.maxLength(256))
+  })
+  return (req, res, next) => {
+    try {
+      const data = readBody(req.body)
+      res.json(data)
+      next()
+    }
+    catch (err) {
+      next(err)
+    }
+  }
+}
+```
+
+### Miscellaneous
+
+`identity()` provides a simple identity function, which can be useful for e.g. dereferencing arrays:
+
+```ts
+import { identity } from '@edge/api-sdk'
+
+const a = [1, 2, 3]
+const b = a.map(identity)
+a.push(4)
+console.log(a, b) // [ 1, 2, 3, 4 ] [ 1, 2, 3 ]
+```
+
 ## Contributing
 
 Interested in contributing to the project? Amazing! Before you do, please have a quick look at our [Contributor Guidelines](CONTRIBUTING.md) where we've got a few tips to help you get started.
@@ -13,7 +101,7 @@ Interested in contributing to the project? Amazing! Before you do, please have a
 Edge is the infrastructure of Web3. A peer-to-peer network and blockchain providing high performance decentralised web services, powered by the spare capacity all around us.
 
 Copyright notice
-(C) 2022 Edge Network Technologies Limited <support@edge.network><br />
+(C) 2023 Edge Network Technologies Limited <support@edge.network><br />
 All rights reserved
 
 This product is part of Edge.
