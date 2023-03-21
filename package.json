@@ -1,0 +1,23 @@
+{
+  "name": "@edge/api-sdk",
+  "version": "0.1.0",
+  "description": "Provides commonly-used tools across Edge API products",
+  "author": "Edge Network <core@edge.network>",
+  "contributors": [
+    "Aneurin \"Anny\" Barker Snook <aneurin@edge.network>"
+  ],
+  "main": "dist/lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint --ext .ts lib",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "devDependencies": {
+    "@edge/eslint-config-typescript": "^0.1.4",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "eslint": "^8.36.0",
+    "typescript": "^5.0.2"
+  }
+}
