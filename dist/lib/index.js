@@ -26,7 +26,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.identity = exports.validate = exports.query = exports.http = exports.cycle = void 0;
+exports.unique = exports.identity = exports.validate = exports.query = exports.http = exports.cycle = void 0;
 exports.cycle = __importStar(require("./cycle"));
 exports.http = __importStar(require("./http"));
 exports.query = __importStar(require("./query"));
@@ -34,3 +34,6 @@ exports.validate = __importStar(require("./validate"));
 /** Identity function. */
 var identity = function (data) { return data; };
 exports.identity = identity;
+/** Simple uniqueness filter. */
+var unique = function (v, i, arr) { return arr.indexOf(v) === i; };
+exports.unique = unique;
