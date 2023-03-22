@@ -9,3 +9,6 @@ export * as validate from './validate'
 
 /** Identity function. */
 export const identity = <T>(data: T) => data
+
+/** Simple uniqueness filter. */
+export const unique = <T>(v: T, i: number, arr: T[]) => arr.indexOf(v) === i

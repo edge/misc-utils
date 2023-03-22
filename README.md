@@ -92,6 +92,15 @@ a.push(4)
 console.log(a, b) // [ 1, 2, 3, 4 ] [ 1, 2, 3 ]
 ```
 
+`unique()` provides a simple way to isolate unique values.
+
+```ts
+import { unique } from '@edge/api-sdk'
+
+const ids = ['abc', 'def', 'def', 'ghi'].filter(unique)
+console.log(ids) // [ 'abc', 'def', 'ghi' ]
+```
+
 ## Contributing
 
 Interested in contributing to the project? Amazing! Before you do, please have a quick look at our [Contributor Guidelines](CONTRIBUTING.md) where we've got a few tips to help you get started.
