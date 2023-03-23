@@ -13,14 +13,14 @@ Provides commonly-used tools across Edge API products
 ```ts
 import { cycle } from '@edge/api-sdk'
 
-const hello: Job = {
+const hello: cycle.Job = {
   name: 'hello',
   interval: 2000,
   async do() {
     console.log('Hello')
   }
 }
-run([hello]).catch(err => console.error(err))
+cycle.run([hello]).catch(err => console.error(err))
 ```
 
 ### http
@@ -57,13 +57,13 @@ const handler: RequestHandler = (req, res, next) => {
 
 ```ts
 import { RequestHandler } from 'express'
-import { validate } from '@edge/api-sdk'
+import { validate as v } from '@edge/api-sdk'
 
 const handler = (): RequestHandler => {
   type Data = {
     name: string
   }
-  const readBody = validate.validate<Data>({
+  const readBody = v.validate<Data>({
     name: v.seq(v.str, v.minLength(1), v.maxLength(256))
   })
   return (req, res, next) => {
