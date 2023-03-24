@@ -2,7 +2,7 @@
 
 # Edge API Standard Development Kit
 
-Provides commonly-used tools across Edge API products
+Provides commonly-used libraries across Edge products
 
 ## Overview
 
