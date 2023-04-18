@@ -57,14 +57,14 @@ const handler: RequestHandler = (req, res, next) => {
 
 ```ts
 import { RequestHandler } from 'express'
-import { validate as v } from '@edge/misc-utils'
+import { validate } from '@edge/misc-utils'
 
 const handler = (): RequestHandler => {
   type Data = {
     name: string
   }
-  const readBody = v.validate<Data>({
-    name: v.seq(v.str, v.minLength(1), v.maxLength(256))
+  const readBody = validate.validate<Data>({
+    name: validate.seq(validate.str, validate.minLength(1), validate.maxLength(256))
   })
   return (req, res, next) => {
     try {
