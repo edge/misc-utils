@@ -11,7 +11,7 @@ Provides commonly-used libraries across Edge products
 [cycle](./lib/cycle.ts) provides a simple wrapper for background jobs.
 
 ```ts
-import { cycle } from '@edge/api-sdk'
+import { cycle } from '@edge/misc-utils'
 
 const hello: cycle.Job = {
   name: 'hello',
@@ -29,10 +29,10 @@ cycle.run([hello]).catch(err => console.error(err))
 
 ```ts
 import { RequestHandler } from 'express'
-import { http as sdkHttp } from '@edge/api-sdk'
+import { http } from '@edge/misc-utils'
 
 const handler: RequestHandler = (req, res, next) => {
-  sdkHttp.notFound(res, next, { reason: 'this is just a README demonstration' })
+  http.notFound(res, next, { reason: 'this is just a README demonstration' })
 }
 ```
 
@@ -42,7 +42,7 @@ const handler: RequestHandler = (req, res, next) => {
 
 ```ts
 import { RequestHandler } from 'express'
-import { query } from '@edge/api-sdk'
+import { query } from '@edge/misc-utils'
 
 const handler: RequestHandler = (req, res, next) => {
   const page = query.integer(req.query.page, 1) || 1
@@ -57,7 +57,7 @@ const handler: RequestHandler = (req, res, next) => {
 
 ```ts
 import { RequestHandler } from 'express'
-import { validate as v } from '@edge/api-sdk'
+import { validate as v } from '@edge/misc-utils'
 
 const handler = (): RequestHandler => {
   type Data = {
@@ -84,7 +84,7 @@ const handler = (): RequestHandler => {
 `identity()` provides a simple identity function, which can be useful for e.g. dereferencing arrays:
 
 ```ts
-import { identity } from '@edge/api-sdk'
+import { identity } from '@edge/misc-utils'
 
 const a = [1, 2, 3]
 const b = a.map(identity)
@@ -95,7 +95,7 @@ console.log(a, b) // [ 1, 2, 3, 4 ] [ 1, 2, 3 ]
 `unique()` provides a simple way to isolate unique values.
 
 ```ts
-import { unique } from '@edge/api-sdk'
+import { unique } from '@edge/misc-utils'
 
 const ids = ['abc', 'def', 'def', 'ghi'].filter(unique)
 console.log(ids) // [ 'abc', 'def', 'ghi' ]
