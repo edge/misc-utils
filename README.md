@@ -1,6 +1,6 @@
 <img src="https://cdn.edge.network/assets/img/edge-logo-green.svg" width="200">
 
-# Edge API Standard Development Kit
+# Edge Miscellaneous Utilities
 
 Provides commonly-used libraries across Edge products
 
