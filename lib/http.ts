@@ -43,6 +43,10 @@ export const tooManyRequests: ErrorHandler = (res, next, data) =>
 export const unauthorized: ErrorHandler = (res, next, data) =>
   error(res, next, 401, { message: 'unauthorized', ...data })
 
+/** 503 Service Unavailable error handler. */
+export const unavailable: ErrorHandler = (res, next, data) =>
+  error(res, next, 503, { message: 'service unavailable', ...data })
+
 /** 405 Method Not Allowed (by virtue of lacking implementation) error handler. */
 export const unimplemented: ErrorHandler = (res, next, data) =>
   error(res, next, 405, { message: 'unimplemented', ...data })
