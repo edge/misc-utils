@@ -27,6 +27,10 @@ export const forbidden: ErrorHandler = (res, next, data) =>
 export const internalServerError: ErrorHandler = (res, next, data) =>
   error(res, next, 500, { message: 'internal server error', ...data })
 
+/** 405 Method Not Allowed error handler. */
+export const notAllowed: ErrorHandler = (res, next, data) =>
+  error(res, next, 405, { message: 'method not allowed', ...data })
+
 /** 404 Not Found error handler. */
 export const notFound: ErrorHandler = (res, next, data) =>
   error(res, next, 404, { message: 'not found', ...data })
@@ -47,6 +51,6 @@ export const unauthorized: ErrorHandler = (res, next, data) =>
 export const unavailable: ErrorHandler = (res, next, data) =>
   error(res, next, 503, { message: 'service unavailable', ...data })
 
-/** 405 Method Not Allowed (by virtue of lacking implementation) error handler. */
+/** 501 Unimplemented error handler. */
 export const unimplemented: ErrorHandler = (res, next, data) =>
-  error(res, next, 405, { message: 'unimplemented', ...data })
+  error(res, next, 501, { message: 'unimplemented', ...data })
