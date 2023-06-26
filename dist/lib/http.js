@@ -14,7 +14,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.unimplemented = exports.unauthorized = exports.tooManyRequests = exports.paymentRequired = exports.notFound = exports.internalServerError = exports.forbidden = exports.error = exports.badRequest = void 0;
+exports.unimplemented = exports.unavailable = exports.unauthorized = exports.tooManyRequests = exports.paymentRequired = exports.notFound = exports.notAllowed = exports.internalServerError = exports.forbidden = exports.error = exports.badRequest = void 0;
 /** 400 Bad Request error handler. */
 var badRequest = function (res, next, data) {
     return (0, exports.error)(res, next, 400, __assign({ message: 'bad request' }, data));
@@ -36,6 +36,11 @@ var internalServerError = function (res, next, data) {
     return (0, exports.error)(res, next, 500, __assign({ message: 'internal server error' }, data));
 };
 exports.internalServerError = internalServerError;
+/** 405 Method Not Allowed error handler. */
+var notAllowed = function (res, next, data) {
+    return (0, exports.error)(res, next, 405, __assign({ message: 'method not allowed' }, data));
+};
+exports.notAllowed = notAllowed;
 /** 404 Not Found error handler. */
 var notFound = function (res, next, data) {
     return (0, exports.error)(res, next, 404, __assign({ message: 'not found' }, data));
@@ -56,8 +61,13 @@ var unauthorized = function (res, next, data) {
     return (0, exports.error)(res, next, 401, __assign({ message: 'unauthorized' }, data));
 };
 exports.unauthorized = unauthorized;
-/** 405 Method Not Allowed (by virtue of lacking implementation) error handler. */
+/** 503 Service Unavailable error handler. */
+var unavailable = function (res, next, data) {
+    return (0, exports.error)(res, next, 503, __assign({ message: 'service unavailable' }, data));
+};
+exports.unavailable = unavailable;
+/** 501 Unimplemented error handler. */
 var unimplemented = function (res, next, data) {
-    return (0, exports.error)(res, next, 405, __assign({ message: 'unimplemented' }, data));
+    return (0, exports.error)(res, next, 501, __assign({ message: 'unimplemented' }, data));
 };
 exports.unimplemented = unimplemented;
