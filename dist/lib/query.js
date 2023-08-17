@@ -7,7 +7,7 @@ exports.str = exports.sorts = exports.integer = exports.bool = exports.array = e
 /** Boolean false value matches in query string. */
 exports.FALSE = ['0', 'no', 'off', 'false'];
 /** Valid sort expression. */
-var SORT_REGEXP = /^-?[a-zA-Z0-9.]+$/;
+var SORT_REGEXP = /^-?[a-zA-Z0-9._]+$/;
 /** Boolean true value matches in query string. */
 exports.TRUE = ['1', 'on', 'yes', 'true'];
 /** Read query value as a string array. */
