@@ -17,7 +17,7 @@ export type Sort<T extends string | number | symbol> = [T, Direction]
 export const FALSE = ['0', 'no', 'off', 'false']
 
 /** Valid sort expression. */
-const SORT_REGEXP = /^-?[a-zA-Z0-9.]+$/
+const SORT_REGEXP = /^-?[a-zA-Z0-9._]+$/
 
 /** Boolean true value matches in query string. */
 export const TRUE = ['1', 'on', 'yes', 'true']
