@@ -57,7 +57,7 @@ export const prepare = (job: Job, before?: InfoFn, after?: InfoFn, onError?: Err
   return async (): Promise<void> => {
     if (job.status === 'running') {
       const err = new PreviousExecutionNotCompleteError(job.name, job.status, '')
-      if (onError) onError(job, err)
+      if (onError) return onError(job, err)
       else throw err
     }
 
