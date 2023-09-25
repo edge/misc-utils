@@ -96,7 +96,7 @@ var prepare = function (job, before, after, onError) {
                     if (job.status === 'running') {
                         err = new PreviousExecutionNotCompleteError(job.name, job.status, '');
                         if (onError)
-                            onError(job, err);
+                            return [2 /*return*/, onError(job, err)];
                         else
                             throw err;
                     }
