@@ -25,6 +25,8 @@ export type Job = {
   defer?: number
   /** Job status after last run */
   status?: Status
+  /** Maximum execution time for a job (milliseconds) */
+  timeout?: number
 }
 
 /** Information about a job. */
@@ -38,6 +40,24 @@ export class PreviousExecutionNotCompleteError extends Error {
   constructor(jobName: string, status: string | undefined, message: string) {
     super(message)
     this.name = 'PreviousExecutionNotCompleteError'
+    this.jobName = jobName
+    this.status = status
+  }
+}
+
+/**
+ * Error representing failure to complete a job within its timeout period, if one is set.
+ *
+ * **This does not mean the job has been cleaned up safely.**
+ * If timeout errors are occuring regularly, either the timeout is too low or there is a problem with the job.
+ */
+export class TimeoutError extends Error {
+  jobName: string
+  status: string | undefined
+
+  constructor(jobName: string, status: string | undefined, message: string) {
+    super(message)
+    this.name = 'TimeoutError'
     this.jobName = jobName
     this.status = status
   }
@@ -64,7 +84,18 @@ export const prepare = (job: Job, before?: InfoFn, after?: InfoFn, onError?: Err
     before && before(job)
     job.status = 'running'
     try {
-      await doJob()
+      if (job.timeout) {
+        await new Promise((res, rej) => {
+          const t = setTimeout(() => {
+            rej(new TimeoutError(job.name, job.status, 'timed out'))
+          }, job.timeout)
+
+          doJob().then(res).finally(() => {
+            if (t) clearTimeout(t)
+          })
+        })
+      }
+      else await doJob()
       job.status = 'pending'
       after && after(job)
     }
