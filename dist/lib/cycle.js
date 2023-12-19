@@ -65,7 +65,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sequence = exports.run = exports.prepare = exports.PreviousExecutionNotCompleteError = void 0;
+exports.sequence = exports.run = exports.prepare = exports.TimeoutError = exports.PreviousExecutionNotCompleteError = void 0;
 var timers_1 = require("timers");
 /** Error representing failure to start a job because the previous execution has not completed. */
 var PreviousExecutionNotCompleteError = /** @class */ (function (_super) {
@@ -80,6 +80,24 @@ var PreviousExecutionNotCompleteError = /** @class */ (function (_super) {
     return PreviousExecutionNotCompleteError;
 }(Error));
 exports.PreviousExecutionNotCompleteError = PreviousExecutionNotCompleteError;
+/**
+ * Error representing failure to complete a job within its timeout period, if one is set.
+ *
+ * **This does not mean the job has been cleaned up safely.**
+ * If timeout errors are occuring regularly, either the timeout is too low or there is a problem with the job.
+ */
+var TimeoutError = /** @class */ (function (_super) {
+    __extends(TimeoutError, _super);
+    function TimeoutError(jobName, status, message) {
+        var _this = _super.call(this, message) || this;
+        _this.name = 'TimeoutError';
+        _this.jobName = jobName;
+        _this.status = status;
+        return _this;
+    }
+    return TimeoutError;
+}(Error));
+exports.TimeoutError = TimeoutError;
 /**
  * Wrap a job's doing function with status management, error handling, and callbacks.
  *
@@ -104,22 +122,37 @@ var prepare = function (job, before, after, onError) {
                     job.status = 'running';
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, doJob()];
+                    _a.trys.push([1, 6, , 7]);
+                    if (!job.timeout) return [3 /*break*/, 3];
+                    return [4 /*yield*/, new Promise(function (res, rej) {
+                            var t = setTimeout(function () {
+                                rej(new TimeoutError(job.name, job.status, 'timed out'));
+                            }, job.timeout);
+                            doJob().then(res).finally(function () {
+                                if (t)
+                                    clearTimeout(t);
+                            });
+                        })];
                 case 2:
                     _a.sent();
+                    return [3 /*break*/, 5];
+                case 3: return [4 /*yield*/, doJob()];
+                case 4:
+                    _a.sent();
+                    _a.label = 5;
+                case 5:
                     job.status = 'pending';
                     after && after(job);
-                    return [3 /*break*/, 4];
-                case 3:
+                    return [3 /*break*/, 7];
+                case 6:
                     err_1 = _a.sent();
                     job.status = 'error';
                     if (onError)
                         onError(job, err_1);
                     else
                         throw err_1;
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [3 /*break*/, 7];
+                case 7: return [2 /*return*/];
             }
         });
     }); };

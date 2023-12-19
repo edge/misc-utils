@@ -16,11 +16,24 @@ export type Job = {
     defer?: number;
     /** Job status after last run */
     status?: Status;
+    /** Maximum execution time for a job (milliseconds) */
+    timeout?: number;
 };
 /** Information about a job. */
 export type JobInfo = Pick<Job, 'name' | 'status'>;
 /** Error representing failure to start a job because the previous execution has not completed. */
 export declare class PreviousExecutionNotCompleteError extends Error {
+    jobName: string;
+    status: string | undefined;
+    constructor(jobName: string, status: string | undefined, message: string);
+}
+/**
+ * Error representing failure to complete a job within its timeout period, if one is set.
+ *
+ * **This does not mean the job has been cleaned up safely.**
+ * If timeout errors are occuring regularly, either the timeout is too low or there is a problem with the job.
+ */
+export declare class TimeoutError extends Error {
     jobName: string;
     status: string | undefined;
     constructor(jobName: string, status: string | undefined, message: string);
