@@ -178,7 +178,7 @@ export const validate = <T extends object>(spec: Spec<Required<T>>, parent = '')
   (input: unknown, origInput?: unknown): T => {
     type V = keyof Spec<Required<T>>
     type I = keyof T
-    if (typeof input !== 'object' || input === null) throw new Error('no data')
+    if (typeof input !== 'object' || input === null) throw new ValidateError('', 'no data')
     return Object.keys(spec).reduce((v, k) => {
       const f = spec[k as V]
       const value = (input as T)[k as I]
