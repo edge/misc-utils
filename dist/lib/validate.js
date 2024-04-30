@@ -186,7 +186,7 @@ var validate = function (spec, parent) {
     if (parent === void 0) { parent = ''; }
     return function (input, origInput) {
         if (typeof input !== 'object' || input === null)
-            throw new Error('no data');
+            throw new ValidateError('', 'no data');
         return Object.keys(spec).reduce(function (v, k) {
             var f = spec[k];
             var value = input[k];
