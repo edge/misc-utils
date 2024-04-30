@@ -1,6 +1,6 @@
 {
   "name": "@edge/misc-utils",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Provides commonly-used libraries across Edge products",
   "author": "Edge Network <core@edge.network>",
   "contributors": [
